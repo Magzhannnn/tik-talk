@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'imageUrlPipeTs',
   standalone: true,
 })
-export class ImageUrlPipeTsPipe implements PipeTransform {
+export class imageUrlPipeTs implements PipeTransform {
   transform(value: string | null): string | null {
     if (!value) return null;
 
