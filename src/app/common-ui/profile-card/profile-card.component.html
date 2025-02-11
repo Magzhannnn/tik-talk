@@ -1,35 +1,29 @@
+@if (profile) {
 <div class="profile-card">
   <div class="avatar-name">
     <img
-      src="/assets/images/rayan.jfif"
-      alt="Rayan"
+      [src]="profile.avatarUrl | imageUrlPipeTs"
+      [alt]="profile.lastName"
       class="profile-card__avatar"
     />
     <div class="profile-card__name">
-      <strong class="h6">Райан Гослинг</strong>
-      <span class="subtitle">ryan.gosling</span>
+      <strong class="h6">{{ profile.firstName }} {{ profile.lastName }}</strong>
+      <span class="subtitle">{{ profile.username }}</span>
     </div>
   </div>
 
   <div class="profile-card__description">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo quisquam
-    voluptatibus doloribus provident suscipit quis, ad iusto. Excepturi natus
-    esse quas! Possimus repellat distinctio enim nemo sed praesentium? Odit, at?
-    Voluptas repellat quis harum quisquam! Delectus eligendi ullam mollitia quam
-    unde libero nesciunt quas culpa sit modi sint a, at officiis impedit
-    accusamus nihil architecto exercitationem consequatur fuga placeat.
-    Aspernatur?
+    {{ profile.description }}
   </div>
 
   <div class="profile-card__tags">
-    <app-skill-tag [skillTag]="'Angular'"></app-skill-tag>
-    <app-skill-tag [skillTag]="'HTML'"></app-skill-tag>
-    <app-skill-tag [skillTag]="'CSS'"></app-skill-tag>
-    <app-skill-tag [skillTag]="'Javascript'"></app-skill-tag>
-    <app-skill-tag [skillTag]="'REST'"></app-skill-tag>
+    @for (skill of profile.stack; track skill) {
+    <app-skill-tag [skillTag]="skill"></app-skill-tag>
+    }
   </div>
 
   <div class="profile-card__action-btns">
     <button class="btn">Подписаться</button>
   </div>
 </div>
+} @else { Have not profile }

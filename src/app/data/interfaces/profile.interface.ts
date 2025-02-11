@@ -1,6 +1,6 @@
 export interface IProfile {
   id: number;
-  name: string;
+  username: string;
   avatarUrl: string | null;
   subscribersAmount: number;
   firstName: string;
