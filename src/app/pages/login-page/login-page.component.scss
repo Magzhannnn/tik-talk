@@ -1,0 +1,9 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100dvh;
+  align-items: center;
+  gap: 60px;
+  width: 1000px;
+  margin: 0 auto;
+}
