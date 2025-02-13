@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { TokenResponse } from './auth.interface';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,9 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthService {
   http = inject(HttpClient);
   cookieService = inject(CookieService);
-  baseApiUrl: string = 'https://icherniakov.ru/yt-course/auth/';
+  router = inject(Router);
 
+  baseApiUrl: string = 'https://icherniakov.ru/yt-course/auth/';
   token: string | null = null;
   refreshToken: string | null = null;
 
@@ -31,14 +33,35 @@ export class AuthService {
 
     return this.http
       .post<TokenResponse>(`${this.baseApiUrl}token`, formData)
-      .pipe(
-        tap((val) => {
-          this.token = val.access_token;
-          this.refreshToken = val.refresh_token;
+      .pipe(tap((val) => this.saveToken(val)));
+  }
 
-          this.cookieService.set('token', this.token);
-          this.cookieService.set('refreshToken', this.refreshToken);
+  refreshAuthToken() {
+    return this.http
+      .post<TokenResponse>(`${this.baseApiUrl}refresh`, {
+        refresh_token: this.refreshToken,
+      })
+      .pipe(
+        tap((val) => this.saveToken(val)),
+        catchError((error) => {
+          this.logout();
+          return throwError(error);
         })
       );
   }
+
+  logout() {
+    this.cookieService.deleteAll();
+    this.token = null;
+    this.refreshToken = null;
+    this.router.navigate(['/login']);
+  }
+
+  saveToken = (val: { access_token: string; refresh_token: string }) => {
+    this.token = val.access_token;
+    this.refreshToken = val.refresh_token;
+
+    this.cookieService.set('token', this.token);
+    this.cookieService.set('refreshToken', this.refreshToken);
+  };
 }
