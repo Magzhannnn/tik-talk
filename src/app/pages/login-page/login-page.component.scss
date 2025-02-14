@@ -4,6 +4,29 @@
   height: 100dvh;
   align-items: center;
   gap: 60px;
-  width: 1000px;
-  margin: 0 auto;
+  margin: 0 5%;
+}
+
+.login-form {
+  width: 440px;
+}
+
+.login-form,
+.big-logo {
+  place-self: center;
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-eye-btn {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ffffffbf;
+  cursor: pointer;
 }

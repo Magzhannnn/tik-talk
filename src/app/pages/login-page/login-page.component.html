@@ -13,12 +13,26 @@
 
   <label class="tt-control-label mb32">
     Пароль
-    <input
-      formControlName="password"
-      type="password"
-      class="tt-input"
-      placeholder="Введите пароль"
-    />
+
+    <div class="password-input">
+      <input
+        formControlName="password"
+        [type]="visiblePassword() ? 'password' : 'text'"
+        class="tt-input"
+        placeholder="Введите пароль"
+      />
+      <button class="password-eye-btn" (click)="onVisiblePassword()">
+        <img
+          [src]="
+            visiblePassword()
+              ? '/assets/images/hidden-eye.png'
+              : '/assets/images/visible-eye.png'
+          "
+          width="20"
+          alt="eye"
+        />
+      </button>
+    </div>
   </label>
 
   <button class="btn btn-shadow" type="submit">Войти</button>
